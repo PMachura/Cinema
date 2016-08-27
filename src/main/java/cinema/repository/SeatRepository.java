@@ -1,5 +1,9 @@
 package cinema.repository;
 
-public class SeatRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import cinema.model.Seat;
+
+public interface SeatRepository extends JpaRepository <Seat, Integer> {
 
 }

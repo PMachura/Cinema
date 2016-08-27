@@ -1,5 +1,9 @@
 package cinema.repository;
 
-public class TicketRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import cinema.model.Ticket;
+
+public interface TicketRepository extends JpaRepository <Ticket,Integer> {
 
 }
