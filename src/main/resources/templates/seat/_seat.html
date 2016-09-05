@@ -1,0 +1,12 @@
+
+
+<div th:fragment="content (seat)">
+     <div class="col l1 ">
+        <label th:text="#{row}">Row</label>
+        <h5><span th:text="${seat.row}">Row</span><br/></h5>
+    </div>
+    <div class="col l1 ">
+        <label th:text="#{number}">Number</label>
+        <h5> <span th:text="${seat.number}">Number</span><br/></h5>
+    </div>
+</div>

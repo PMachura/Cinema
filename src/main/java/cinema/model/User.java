@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -23,22 +24,27 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
+
     @NotEmpty
     @Size(max = 50, min = 2)
-    private String name;
-    
+    private String firstName;
+
+    @NotEmpty
+    @Size(max = 50, min = 2)
+    private String lastName;
+
     @NotEmpty
     @Email
     @Column(unique = true)
     private String email;
-    
-    private Integer type;
-    
+
+    @NotBlank
+    private String password;
+
     @OneToMany(mappedBy = "user")
     private List<Ticket> tickets = new ArrayList<Ticket>(0);
 
@@ -50,12 +56,20 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -66,14 +80,6 @@ public class User {
         this.email = email;
     }
 
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
     public List<Ticket> getTickets() {
         return tickets;
     }
@@ -81,7 +87,13 @@ public class User {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
-    
-    
-    
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }

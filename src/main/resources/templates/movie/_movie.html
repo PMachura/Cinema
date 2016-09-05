@@ -1,0 +1,15 @@
+
+
+<div th:fragment="content (movie)">
+    <div class="col l2 ">
+        <img th:src="@{/moviePictures/{title}.jpg(title=${movie.title})}" width="100" height="100"/>      
+    </div>
+    <div class="col l2 ">
+        <label th:text="#{movieTitle}">Movie title</label>
+        <h5><span th:text="${movie.title}">Unknown</span><br/></h5>
+    </div>
+    <div class="col l2 ">
+        <label th:text="#{genre}">Genre</label>
+        <h5> <span th:text="${movie.genre.title}">Unknown</span><br/></h5>
+    </div>
+</div>

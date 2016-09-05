@@ -5,6 +5,7 @@
  */
 package cinema.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class Movie {
     
     @NotEmpty
     @Size(min =1, max = 20)
+    @Column(unique = true)
     private String title;
     
     @ManyToOne

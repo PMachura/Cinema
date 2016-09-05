@@ -35,6 +35,10 @@ public class Showing {
     @JoinColumn(name = "movie_id")
     private Movie movie;
     
+    @ManyToOne
+    @JoinColumn(name = "hall_id")
+    private Hall hall;
+    
     @Type(type = "date")
     @NotNull
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -44,6 +48,22 @@ public class Showing {
     @NotNull
     @Temporal(TemporalType.TIME)
     private Time time;
+
+    public Hall getHall() {
+        return hall;
+    }
+
+    public void setHall(Hall hall) {
+        this.hall = hall;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public Integer getId() {
         return id;

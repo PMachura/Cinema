@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package cinema.model;
+
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,20 +32,21 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "showing_id")
-    Showing showing;
+    private Showing showing;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    Employee employee;
+    private Employee employee;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "Ticket_Seat", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "seat_id"))
-    private Set<Seat> seats = new HashSet<Seat>();
+    @ManyToMany(cascade = {CascadeType.MERGE})
+    @JoinTable(name = "ticket_seat", joinColumns = @JoinColumn(name = "ticket_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "seat_id", referencedColumnName = "id"))
+    private List <Seat> seats;
 
+     
     public Integer getId() {
         return id;
     }
@@ -75,12 +79,14 @@ public class Ticket {
         this.employee = employee;
     }
 
-    public Set<Seat> getSeats() {
+    public List<Seat> getSeats() {
         return seats;
     }
 
-    public void setSeats(Set<Seat> seats) {
+    public void setSeats(List<Seat> seats) {
         this.seats = seats;
     }
+
+  
 
 }

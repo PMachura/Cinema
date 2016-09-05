@@ -5,7 +5,9 @@
  */
 package cinema.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,17 +27,17 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
+
     private Integer row;
-    
+
     private Integer number;
-    
+
     @ManyToOne
     @JoinColumn(name = "hall_id")
     Hall hall;
-    
+
     @ManyToMany(mappedBy = "seats")
-    private Set<Ticket> tickets = new HashSet<Ticket>();
+    private List<Ticket> tickets;
 
     public Integer getId() {
         return id;
@@ -69,14 +71,14 @@ public class Seat {
         this.hall = hall;
     }
 
-    public Set<Ticket> getTickets() {
+    public List<Ticket> getTickets() {
         return tickets;
     }
 
-    public void setTickets(Set<Ticket> tickets) {
+    public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
-    
+
     
 
 }

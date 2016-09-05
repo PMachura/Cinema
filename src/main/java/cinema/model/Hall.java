@@ -35,8 +35,21 @@ public class Hall {
     Integer capacity;
     
     @OneToMany(mappedBy = "hall")
+    private List<Showing> showings = new ArrayList<Showing>(0);
+    
+    @OneToMany(mappedBy = "hall")
     private List<Seat> seats = new ArrayList<Seat>(0);
 
+    public List<Showing> getShowings() {
+        return showings;
+    }
+
+    public void setShowings(List<Showing> showings) {
+        this.showings = showings;
+    }
+
+    
+    
     public Integer getId() {
         return id;
     }
