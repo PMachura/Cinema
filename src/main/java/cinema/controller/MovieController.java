@@ -11,7 +11,9 @@ import cinema.service.MovieService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -59,16 +61,22 @@ public class MovieController {
 
     @ExceptionHandler(IOException.class)
     public ModelAndView IOExceptionHandle(Locale locale) {
-        ModelAndView modelAndView = new ModelAndView("movie/add");
-        modelAndView.addObject("error", messageSource.getMessage("upload.io.exception", null, locale));   
+        ModelAndView modelAndView = new ModelAndView("movie/movieForm");
+        modelAndView.addObject("error", messageSource.getMessage("upload.io.exception", null, locale));
         return modelAndView;
     }
-    
+
     @RequestMapping("/uploadError")
-    public ModelAndView onUploadError(Locale locale){
+    public ModelAndView onUploadError(Locale locale) {
         ModelAndView modelAndView = new ModelAndView("movie/add");
         modelAndView.addObject("error", messageSource.getMessage("upload.file.too.big", null, locale));
         return modelAndView;
+    }
+
+    @RequestMapping
+    public String index(Model model) {
+        model.addAttribute("movies", movieService.findAll());
+        return "/movie/index";
     }
 
     @RequestMapping("/add")
@@ -80,26 +88,44 @@ public class MovieController {
 
     @RequestMapping(value = "/create", method = POST)
     public String processRegistration(@ModelAttribute("user") @Valid Movie movie,
-            MultipartFile file, Errors errors,
+            MultipartFile file, BindingResult bindingResult,
             RedirectAttributes redirectAttributes) throws IOException {
 
-        if (errors.hasErrors()) {
-            return "movie/add";
+        if (bindingResult.hasErrors()) {
+            return "movie/movieForm";
         }
-        if (file.isEmpty() || !isImage(file)) {
-            redirectAttributes.addFlashAttribute("error", "Niewlasciwy typ pliku");
-            return "redirect:/user/register";
+       
+        if (!file.isEmpty()) {
+            if (isImage(file)) {
+                Files.copy(file.getInputStream(), Paths.get(PICTURE_DIR.getFile().getAbsolutePath(), movie.getTitle() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Niewøaßciwy typ pliku");
+                return "redirect:/movie/add";
+            }
         }
 
-        Files.copy(file.getInputStream(), Paths.get(PICTURE_DIR.getFile().getAbsolutePath(), movie.getTitle() + ".jpg"));
         movieService.save(movie);
-        return "redirect:/movie/show/" + movie.getId();
+        return "redirect:/movie/" + movie.getId() + "/show";
     }
 
-    @RequestMapping("/show/{id}")
+    @RequestMapping("/{id}/show")
     public String show(@PathVariable Integer id, Model model) {
         model.addAttribute("movie", movieService.findOne(id));
         return "movie/movie";
+    }
+
+    @RequestMapping("/{id}/edit")
+    public String edit(@PathVariable Integer id, Model model) {
+        model.addAttribute("movie", movieService.findOne(id));
+        model.addAttribute("genres", genreService.findAll());
+        return "/movie/movieForm";
+    }
+
+    @RequestMapping("/{id}/delete")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        movieService.delete(id);
+        redirectAttributes.addFlashAttribute("operationResultMessage", "Movie has been deleted");
+        return "redirect:/movie";
     }
 
 }

@@ -4,6 +4,7 @@ import cinema.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cinema.repository.UserRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +24,14 @@ public class UserService {
 
     public User findOne(Integer id) {
         return userRepository.findOne(id);
+    }
+    
+    public void delete(Integer id){
+        userRepository.delete(id);
+    }
+    
+    public List<User> findAll(){
+        return userRepository.findAll();
     }
 
     public boolean compareUser(User first, User second) {

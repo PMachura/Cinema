@@ -50,42 +50,4 @@ public class SeatController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/save")
-    @Transactional
-    public String saveSeat() {
-
-        Seat seat = new Seat();
-        seat.setNumber(23);
-        seat.setRow(2);
-
-        Hall hall = hallService.findOne(1);
-        Ticket ticket = ticketService.findOnd(1);
-
-        seat.setTickets(new ArrayList<Ticket>() {
-            {
-                add(ticket);
-            }
-        });
-        seat.setHall(hall);
-
-        seatService.save(seat);
-        return "home";
-    }
-
-    @RequestMapping("/save/ticket")
-    public String saveTicket() {
-        Ticket ticket = new Ticket();
-        ticket.setEmployee(employeeService.findOne(1));
-        ticket.setSeats(new ArrayList<Seat>(){{
-            add(seatService.findOne(1));
-        } 
-        });
-        ticket.setShowing(showingService.findOne(1));
-        ticket.setUser(userService.findOne(1));
-        
-        ticketService.save(ticket);
-        
-        return "home";
-               
-    }
 }

@@ -11,7 +11,19 @@
         <div class="row" layout:fragment="content">
             <div class ="col m8 s12 offset-m2">
                 <h2 class ="indigo-text center" th:text="#{profile}">Your profile</h2>
-                <div id="profile" th:include="user/_user :: content(user=${user})"></div>
+
+                <div class="row">
+                    <label th:text="#{firstName}">First name</label>
+                    <h5><span th:text="${user.firstName}">Unknown</span></h5>                           
+                </div>  
+                <div class="row">
+                    <label th:text="#{lastName}">Last Name</label>
+                    <h5> <span th:text="${user.lastName}">Unknown</span></h5>   
+                </div>
+                <div class="row">
+                    <label th:text="#{email}">Email</label>
+                    <h5><span th:text="${user.email}">Unknown</span></h5>  
+                </div>
             </div>
         </div>
     </body>

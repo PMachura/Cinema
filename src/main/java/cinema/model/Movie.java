@@ -26,9 +26,9 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
+    @Column(unique = true)
     @NotEmpty
     @Size(min =1, max = 20)
-    @Column(unique = true)
     private String title;
     
     @ManyToOne

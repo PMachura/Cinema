@@ -16,19 +16,17 @@
         });
     </script>
     <body>
-
-
-
+        
         <nav>
             <div class="nav-wrapper deep-orange">
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li><a th:href="@{/home}" th:text="#{homePage}">Home Page</a></li>
+                    <li><a th:href="@{/reservation/movie}" th:text="#{reserve}">Reserve</a></li>
+                    <li><a th:href="@{/movie}" th:text="#{movies}">Movies</a></li>
+                    <li><a th:href="@{/user}" th:text="#{users}">Users</a></li>
                 </ul>
             </div>
         </nav>
-
-
-
 
         <section layout:fragment="content">
             <p>Zawartość strony</p>
@@ -41,7 +39,7 @@
                 $('select').material_select();
             });
         </script>
-
         <script type="text/javascript" layout:fragment="script"></script>
+        
     </body>
 </html>

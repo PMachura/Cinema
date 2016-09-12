@@ -1,16 +1,16 @@
 
 
 <div th:fragment="content (user)">
-    <div class="row">
+    <div class="col s2">
         <label th:text="#{firstName}">First name</label>
-        <h5><span th:text="${user.firstName}">Unknown</span><br/></h5>                           
+        <h6><span th:text="${user.firstName}">Unknown</span></h6>                           
     </div>  
-    <div class="row">
+    <div class="col s2">
         <label th:text="#{lastName}">Last Name</label>
-        <h5> <span th:text="${user.lastName}">Unknown</span><br/></h5>   
+        <h6> <span th:text="${user.lastName}">Unknown</span></h6>   
     </div>
-    <div class="row">
+    <div class="col s3">
         <label th:text="#{email}">Email</label>
-        <h5><span th:text="${user.email}">Unknown</span></h5>  
+        <h6><span th:text="${user.email}">Unknown</span></h6>  
     </div>
 </div>

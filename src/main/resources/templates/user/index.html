@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thmeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+
+    <head lang = "pl">
+        <title>Users</title>
+    </head>
+
+    <body>
+        <div class="row" layout:fragment="content">
+            <div class ="col m8 s12 offset-m2">
+                <h2 class ="deep-orange-text center" th:text="#{users}">Users</h2>           
+                <h5 class="red-text" th:text="${operationResultMessage}"></h5>
+                <div class="row">
+                    <a class="btn waves-effect waves-teal orange" th:href="@{user/register}" th:text="#{addUser}"> 
+                        Add movie
+                    </a>  
+                </div>
+                <ul>
+                    <li th:each="user : ${users}">
+                        <div class="row">
+                            <div id="movieDetail" th:include="user/_user :: content(user=${user})"></div>
+                            <a class="btn waves-effect waves-teal orange" th:href="@{user/{id}/edit(id=${user.id})}" th:text="#{edit}">Edit</a>
+                            <a class="btn waves-effect waves-teal orange" th:href="@{user/{id}/show(id=${user.id})}" th:text="#{show}">Show</a>
+                            <a class="btn waves-effect waves-teal orange" th:href="@{user/{id}/delete(id=${user.id})}" th:text="#{delete}">Delete</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+
+</html>

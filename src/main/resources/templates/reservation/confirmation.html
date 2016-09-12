@@ -4,12 +4,10 @@
       layout:decorator="layout/default">
 
     <head lang = "pl">
-        <title>Reservation movie</title>
+        <title>Reservation confirmation</title>
     </head>
 
     <body>
-
-
         <div class="row" layout:fragment="content">
             <div class ="col m8 s12 offset-m2">
                 <h2 class ="indigo-text center" th:text="#{confirmation}">Confirmation</h2>
@@ -38,8 +36,8 @@
                 <div class ="row">
                     <form th:action="@{/reservation/finalize}" method="post" >
                         <div class="row s12">
-                            <button class="btn waves-effect waves-light" type="submit" name="confirm">
-                                Potwierdz<i class="mdi-content-send right"></i>
+                            <button class="btn waves-effect waves-light"  type="submit" name="confirm">
+                                <i class="mdi-content-send center" th:text="#{confirm}">Confirm</i>
                             </button>
                         </div>
                     </form>

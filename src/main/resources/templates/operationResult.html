@@ -4,15 +4,11 @@
       layout:decorator="layout/default">
 
     <head lang = "pl">
-        <title>Movie</title>
     </head>
 
     <body>
         <div class="row" layout:fragment="content">
-            <div class ="col m8 s12 offset-m2">
-                <h2 class ="indigo-text center" th:text="#{movie}">Movie </h2>
-                <div id="movie" th:include="movie/_movie :: content(movie=${movie})"></div>
-            </div>
+            <h3 class ="indigo-text center" th:text="${operationResultMessage}">Operation completed</h3>          
         </div>
     </body>
 
