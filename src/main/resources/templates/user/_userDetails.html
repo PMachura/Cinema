@@ -1,0 +1,16 @@
+
+
+<div th:fragment="content (user)">
+    <div class="row">
+        <label th:text="#{firstName}">First name</label>
+        <h5 th:text="${user.firstName}">Unknown</h5>                           
+    </div>  
+    <div class="row">
+        <label th:text="#{lastName}">Last Name</label>
+        <h5 th:text="${user.lastName}">Unknown</h5>   
+    </div>
+    <div class="row">
+        <label th:text="#{email}">Email</label>
+        <h5 th:text="${user.email}">Unknown</h5>  
+    </div>
+</div>

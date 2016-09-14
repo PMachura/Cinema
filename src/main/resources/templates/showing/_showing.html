@@ -9,4 +9,12 @@
         <label th:text="#{hour}">Hour</label>
         <h5> <span th:text="${showing.time}">Time</span><br/></h5>
     </div>
+    <div class="col l2 ">
+        <label th:text="#{movie}">Movie</label>
+        <h5> <span th:text="${showing.movie.title}">Movie</span><br/></h5>
+    </div>
+    <div class="col l2 ">
+        <label th:text="#{hall}">Sala</label>
+        <h5> <span th:text="${showing.hall.name}">Sala</span><br/></h5>
+    </div>
 </div>

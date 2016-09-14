@@ -1,0 +1,22 @@
+
+
+<h5> <a th:href="@{/user/{id}/show(id=${ticket.user.id})}" th:text="${ticket.user.email}">User Email</a></h5>
+
+<div th:fragment="content (showing)">
+     <div class="row ">
+        <label th:text="#{date}">Data</label>
+        <h5><span th:text="${showing.date}">Date</span><br/></h5>
+    </div>
+    <div class="row ">
+        <label th:text="#{hour}">Hour</label>
+        <h5> <span th:text="${showing.time}">Time</span><br/></h5>
+    </div>
+    <div class="row ">
+        <label th:text="#{movie}">Movie</label>
+        <h5> <a th:href="@{/movie/{id}/show(id=${showing.movie.id})}" th:text="${showing.movie.title}">Movie title</a></h5>
+    </div>
+    <div class="row ">
+        <label th:text="#{hall}">Sala</label>
+        <h5> <a th:href="@{/hall/{id}/show(id=${showing.hall.id})}" th:text="${showing.hall.name}">Hall name</a></h5>
+    </div>
+</div>

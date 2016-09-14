@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import cinema.repository.ShowingRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Service
 public class ShowingService {
@@ -24,5 +25,18 @@ public class ShowingService {
         
         public Showing findOne(Integer id){
             return showingRepository.findOne(id);
+        }
+        
+        public List<Showing> findAll(){
+            return showingRepository.findAll();
+        }
+        
+        public Showing save(Showing showing){
+            return showingRepository.save(showing);
+        }
+        
+        public void delete(Integer id){
+            showingRepository.delete(id);
+          
         }
 }

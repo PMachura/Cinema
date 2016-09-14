@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thmeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+
+    <head lang = "pl">
+        <title>Tickets</title>
+    </head>
+
+    <body>
+        <div class="row" layout:fragment="content">
+            <div class ="col l12 ">
+                <h2 class ="deep-orange-text center" th:text="#{tickets}">Ticket</h2>           
+                <h5 class="red-text" th:text="${operationResultMessage}"></h5>
+                <ul>
+                    <li th:each="ticket : ${tickets}">
+                        <div class="row">
+                            <div id="ticketDetail" th:include="ticket/_ticket :: content(ticket=${ticket})"></div>
+                            <a class="btn waves-effect waves-teal orange" th:href="@{ticket/{id}/show(id=${ticket.id})}" th:text="#{show}">Show</a>
+                            <a class="btn waves-effect waves-teal orange" th:href="@{ticket/{id}/delete(id=${ticket.id})}" th:text="#{delete}">Delete</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+
+</html>

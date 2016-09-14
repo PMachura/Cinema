@@ -1,0 +1,24 @@
+
+
+<div th:fragment="content (ticket)">
+    <div class="col l3 ">
+        <label th:text="#{user}">User</label>
+        <h5> <span th:text="${ticket.user.email}">User</span><br/></h5>
+    </div>
+    <div class="col l2 ">
+        <label th:text="#{movie}">Movie</label>
+        <h5> <span th:text="${ticket.showing.movie.title}">Movie</span><br/></h5>
+    </div>
+    <div class="col l2 ">
+        <label th:text="#{date}">Data</label>
+        <h5><span th:text="${ticket.showing.date}">Date</span><br/></h5>
+    </div>
+    <div class="col l1 ">
+        <label th:text="#{hour}">Hour</label>
+        <h5> <span th:text="${ticket.showing.time}">Time</span><br/></h5>
+    </div>
+    <div class="col l1 ">
+        <label th:text="#{hall}">Sala</label>
+        <h5> <span th:text="${ticket.showing.hall.name}">Sala</span><br/></h5>
+    </div>
+</div>

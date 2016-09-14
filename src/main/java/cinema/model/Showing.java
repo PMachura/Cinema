@@ -5,8 +5,13 @@
  */
 package cinema.model;
 
+import cinema.config.LocalDateAttributeConverter;
+import cinema.config.LocalTimeAttributeConverter;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -28,26 +34,26 @@ public class Showing {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
+
     private Float price;
-    
+
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
-    
+
     @ManyToOne
     @JoinColumn(name = "hall_id")
     private Hall hall;
-    
-    @Type(type = "date")
+
     @NotNull
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date date;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate date;
+
     
-    @Type(type = "time")
     @NotNull
-    @Temporal(TemporalType.TIME)
-    private Time time;
+    @Convert(converter = LocalTimeAttributeConverter.class)
+    private LocalTime time;
 
     public Hall getHall() {
         return hall;
@@ -55,14 +61,6 @@ public class Showing {
 
     public void setHall(Hall hall) {
         this.hall = hall;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public Integer getId() {
@@ -89,22 +87,20 @@ public class Showing {
         this.movie = movie;
     }
 
-    public Date getRequestDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setRequestDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public Time getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
-    
-    
-    
+
 }

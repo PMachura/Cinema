@@ -99,7 +99,7 @@ public class MovieController {
             if (isImage(file)) {
                 Files.copy(file.getInputStream(), Paths.get(PICTURE_DIR.getFile().getAbsolutePath(), movie.getTitle() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
             } else {
-                redirectAttributes.addFlashAttribute("error", "Niewøaßciwy typ pliku");
+                redirectAttributes.addFlashAttribute("error", "Niewłaściwy typ pliku");
                 return "redirect:/movie/add";
             }
         }
