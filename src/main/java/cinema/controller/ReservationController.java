@@ -16,6 +16,7 @@ import cinema.service.ShowingService;
 import cinema.service.TicketService;
 import cinema.service.UserService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,7 +98,7 @@ public class ReservationController {
     }
 
     @RequestMapping(value = "/confirmation", params = "user", method = RequestMethod.POST)
-    public String confirmation(Model model, @ModelAttribute User user, BindingResult bindingResult) {
+    public String confirmation(Model model, @ModelAttribute @Valid User user, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return "reservation/user";
         }

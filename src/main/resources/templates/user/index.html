@@ -14,13 +14,13 @@
                 <h5 class="red-text" th:text="${operationResultMessage}"></h5>
                 <div class="row">
                     <a class="btn waves-effect waves-teal orange" th:href="@{user/register}" th:text="#{addUser}"> 
-                        Add movie
+                        Add user
                     </a>  
                 </div>
                 <ul>
                     <li th:each="user : ${users}">
                         <div class="row">
-                            <div id="movieDetail" th:include="user/_user :: content(user=${user})"></div>
+                            <div id="users" th:include="user/_user :: content(user=${user})"></div>
                             <a class="btn waves-effect waves-teal orange" th:href="@{user/{id}/edit(id=${user.id})}" th:text="#{edit}">Edit</a>
                             <a class="btn waves-effect waves-teal orange" th:href="@{user/{id}/show(id=${user.id})}" th:text="#{show}">Show</a>
                             <a class="btn waves-effect waves-teal orange" th:href="@{user/{id}/delete(id=${user.id})}" th:text="#{delete}">Delete</a>

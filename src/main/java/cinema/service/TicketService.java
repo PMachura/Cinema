@@ -38,4 +38,8 @@ public class TicketService {
     public List<Ticket> findAllDefaultLimit(int page){
         return ticketRepository.findAll(new PageRequest(page,PAGE_LIMIT)).getContent();
     }
+    
+    public void delete(Integer id){
+        ticketRepository.delete(id);
+    }
 }

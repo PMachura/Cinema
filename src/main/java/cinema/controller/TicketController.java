@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -35,5 +36,12 @@ public class TicketController {
     public String show(@PathVariable Integer id, Model model){
        model.addAttribute("ticket",ticketService.findOne(id));
        return "ticket/ticket";
+    }
+    
+    @RequestMapping("/{id}/delete")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes){
+        ticketService.delete(id);
+        redirectAttributes.addFlashAttribute("operationResultMessage","Ticket has been deleted");
+        return "redirect:/ticket";
     }
 }

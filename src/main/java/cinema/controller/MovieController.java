@@ -63,6 +63,7 @@ public class MovieController {
     public ModelAndView IOExceptionHandle(Locale locale) {
         ModelAndView modelAndView = new ModelAndView("movie/movieForm");
         modelAndView.addObject("error", messageSource.getMessage("upload.io.exception", null, locale));
+        modelAndView.addObject("movie", new Movie());
         return modelAndView;
     }
 

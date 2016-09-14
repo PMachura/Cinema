@@ -40,4 +40,9 @@ public class UserService {
                 && first.getFirstName().equals(second.getFirstName())
                 && first.getLastName().equals(second.getLastName());
     }
+    
+    public User saveOrIfExistsSetId(User user){
+        User founded = userRepository.findByEmail(user.getEmail());
+        return founded == null ? userRepository.save(user) : founded;
+    }
 }

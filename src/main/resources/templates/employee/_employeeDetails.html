@@ -1,0 +1,24 @@
+
+
+<div th:fragment="content (employee)">
+    <div class="row">
+        <label th:text="#{firstName}">First name</label>
+        <h5 th:text="${employee.firstName}">Unknown</h5>                           
+    </div>  
+    <div class="row">
+        <label th:text="#{lastName}">Last Name</label>
+        <h5 th:text="${employee.lastName}">Unknown</h5>   
+    </div>
+    <div class="row">
+        <label th:text="#{email}">Email</label>
+        <h5 th:text="${employee.email}">Unknown</h5>  
+    </div>
+    <div class="row">
+        <ul>
+            <label th:text="#{role}">Role</label>
+            <li th:each="role : ${employee.roles}">
+                <h5 th:text="${role.title}">Unknown</h5>
+            </li>
+        </ul>  
+    </div>
+</div>

@@ -1,0 +1,16 @@
+
+
+<div th:fragment="content (employee)">
+    <div class="col s2">
+        <label th:text="#{employee}">First name</label>
+        <h6><span th:text="${employee.firstName}">Unknown</span></h6>                           
+    </div>  
+    <div class="col s2">
+        <label th:text="#{lastName}">Last Name</label>
+        <h6> <span th:text="${employee.lastName}">Unknown</span></h6>   
+    </div>
+    <div class="col s3">
+        <label th:text="#{email}">Email</label>
+        <h6><span th:text="${employee.email}">Unknown</span></h6>  
+    </div>
+</div>
