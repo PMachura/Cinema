@@ -14,13 +14,12 @@
             <div class ="col m8 s12 offset-m2">
                 <h2 class ="indigo-text center" th:text="#{chooseShowing}">Choose showing</h2>
                 <div class="row">
-                    <form action="/reservation/seats" method="post" class="col m8 s12 offset-m2">
-                        <input type="text" name="movieIdsd" />
+                    <form th:action="@{/reservation/seats}" method="post" class="col m8 s12 offset-m2">
                         <ul>
                             <li th:each="showing : ${showings}">
                                 <div class="row">
                                     <input type="radio" th:id="${showing.id}" th:name="showingId" th:value="${showing.id}" />
-                                    <label style="font-size: 40px" th:for="${showing.id}" th:text="${showing.date} + ' ' + ${showing.time}" >ASD</label>
+                                    <label style="font-size: 20px" th:for="${showing.id}" th:text="Data + ' ' + ${showing.date} + ' ' + Godzina + ' ' + ${showing.time}" >ASD</label>
                                 </div>
                             </li>
                         </ul>

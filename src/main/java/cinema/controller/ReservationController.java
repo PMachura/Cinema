@@ -15,9 +15,14 @@ import cinema.service.SeatService;
 import cinema.service.ShowingService;
 import cinema.service.TicketService;
 import cinema.service.UserService;
+import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,7 +52,7 @@ public class ReservationController {
     @Autowired
     public ReservationController(MovieService movieService, ShowingService showingService, HallService hallService, SeatService seatService, UserService userService,
             TicketSessionForm ticketSessionForm, UserSessionForm userSessionForm, TicketService ticketService) {
-        
+
         this.movieService = movieService;
         this.showingService = showingService;
         this.hallService = hallService;
@@ -58,6 +63,11 @@ public class ReservationController {
         this.ticketService = ticketService;
     }
 
+    @RequestMapping
+    public String prepare(Model model) {
+        return "nic";
+    }
+
     @RequestMapping("/movie")
     public String pickMovie(Model model) {
         model.addAttribute("movies", movieService.findAll());
@@ -65,13 +75,13 @@ public class ReservationController {
     }
 
     @RequestMapping(value = "/showing", params = "movie", method = RequestMethod.POST)
-    public String pickShowing(Model model, @RequestParam Integer movieId) {  
+    public String pickShowing(Model model, @RequestParam Integer movieId) {
         ticketSessionForm.setMovie(movieService.findOne(movieId));
         model.addAttribute("showings", showingService.findByMovieId(movieId));
         return "reservation/showings";
     }
 
-    @RequestMapping(value = "/seats", params = "showing",  method = RequestMethod.POST)
+    @RequestMapping(value = "/seats", params = "showing", method = RequestMethod.POST)
     public String pickSeats(Model model, @RequestParam Integer showingId) {
         ticketSessionForm.setShowing(showingService.findOne(showingId));
         ticketSessionForm.getShowing().setMovie(movieService.findOne(ticketSessionForm.getMovie().getId()));
@@ -82,28 +92,37 @@ public class ReservationController {
     }
 
     @RequestMapping(value = "/user", params = "seats", method = RequestMethod.POST)
-    public String userInformation(Model model, @RequestParam String seatsId) {
+    public String userInformation(Model model, @RequestParam String seatsId, Authentication authentication) {
 
         String[] seatsIdString = seatsId.split(",");
         Integer[] seatsIdInteger = new Integer[seatsIdString.length];
         for (int i = 0; i < seatsIdInteger.length && i < seatsIdString.length; i++) {
             seatsIdInteger[i] = Integer.parseInt(seatsIdString[i]);
         }
-        
         ticketSessionForm.setSeats(seatService.findByIdIn(seatsIdInteger));
-        model.addAttribute("user", userSessionForm.toUser());
 
+        boolean authorized = false;
+        if (authentication != null) {
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            authorized = authorities.contains(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        if (authorized) {
+            model.addAttribute(userService.findByEmail(authentication.getName()));
+
+        } else {
+            model.addAttribute(new User());
+        }
         return "reservation/user";
 
     }
 
     @RequestMapping(value = "/confirmation", params = "user", method = RequestMethod.POST)
     public String confirmation(Model model, @ModelAttribute @Valid User user, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "reservation/user";
         }
-        
-        ticketSessionForm.setUser(user);
+
+        ticketSessionForm.setUser(userService.saveOrIfExistsSetId(user));
         model.addAttribute("ticket", ticketSessionForm.toTicket());
 
         return "reservation/confirmation";
@@ -112,9 +131,7 @@ public class ReservationController {
 
     @RequestMapping(value = "/finalize", method = RequestMethod.POST, params = "confirm")
     public String finalization() {
-        if (ticketSessionForm.getUser().getId() == null) {
-            userService.save(ticketSessionForm.getUser());
-        }
+
         ticketService.save(ticketSessionForm.toTicket());
         ticketSessionForm = new TicketSessionForm();
         return "redirect:/reservation/successfull";

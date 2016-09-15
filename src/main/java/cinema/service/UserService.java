@@ -45,4 +45,8 @@ public class UserService {
         User founded = userRepository.findByEmail(user.getEmail());
         return founded == null ? userRepository.save(user) : founded;
     }
+    
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
 }

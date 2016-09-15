@@ -39,10 +39,11 @@
                         <div th:errors="*{email}" class="red-text">Error</div>
                     </div>
                 </div>
-                <div  th:if="${user.id == null}" class="row">
+                <div  class="row">
                     <div class="input-field col s6">
-                        <input th:field="*{password}" id="password" type ="text" th:errorclass="invalid" />
-                        <label for="password" th:text="#{password}">Password</label>
+                        <input th:if="${user.id != null}" th:hidden="true" th:readonly="true" th:field="*{password}" id="password" type ="text" th:errorclass="invalid" />
+                        <input th:if="${user.id == null}" th:field="*{password}" id="password" type ="text" th:errorclass="invalid" />
+                        <label th:if="${user.id == null}" for="password" th:text="#{password}">Password</label>
                         <div th:errors="*{password}" class="red-text">Error</div>
                     </div>
                 </div>

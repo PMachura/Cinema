@@ -14,13 +14,12 @@
             <div class ="col m8 s12 offset-m2">
                 <h2 class ="indigo-text center" th:text="#{chooseShowing}">Choose showing</h2>
                 <div class="row">
-                    <form action="/reservation/user" method="post" class="col m8 s12 offset-m2">
-                        <input type="text" name="seatsIassd" />
+                    <form th:action="@{/reservation/user}" method="post" class="col m8 s12 offset-m2">
                         <ul>
                             <li th:each="seat : ${seats}">
                                 <div class="row">
                                     <input type="checkbox" th:id="${seat.id}" th:name="seatsId" th:value="${seat.id}" />
-                                    <label style="font-size: 40px" th:for="${seat.id}" th:text="${seat.row + ' ' + seat.number}" >ASD</label>
+                                    <label style="font-size: 20px" th:for="${seat.id}" th:text="Rzad + ' ' + ${seat.row} + ' ' + Miejsce + ' ' +  ${seat.number}" >ASD</label>
                                 </div>
                             </li>
                         </ul>

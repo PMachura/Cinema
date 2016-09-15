@@ -44,7 +44,7 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <select name="roles" multiple="multiple">
+                        <select name="roles" th:multiple="multiple">
                             <option th:each="role : ${roles}" 
                                     th:value="${role.id}" 
                                     th:text="${role.title}">Role title</option>
