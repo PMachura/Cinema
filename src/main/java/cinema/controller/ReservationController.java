@@ -10,6 +10,7 @@ import cinema.form.UserSessionForm;
 import cinema.model.Seat;
 import cinema.model.User;
 import cinema.service.AuthenticationService;
+import cinema.service.EmployeeService;
 import cinema.service.HallService;
 import cinema.service.MovieService;
 import cinema.service.SeatService;
@@ -49,10 +50,12 @@ public class ReservationController {
     private AuthenticationService authenticationService;
     private TicketSessionForm ticketSessionForm;
     private UserSessionForm userSessionForm;
+    private EmployeeService employeeService;
 
     @Autowired
     public ReservationController(MovieService movieService, ShowingService showingService, HallService hallService, SeatService seatService, UserService userService,
-            TicketSessionForm ticketSessionForm, UserSessionForm userSessionForm, TicketService ticketService, AuthenticationService authenticationService) {
+            TicketSessionForm ticketSessionForm, UserSessionForm userSessionForm, TicketService ticketService, AuthenticationService authenticationService,
+            EmployeeService employeeService) {
 
         this.movieService = movieService;
         this.showingService = showingService;
@@ -63,6 +66,7 @@ public class ReservationController {
         this.userSessionForm = userSessionForm;
         this.ticketService = ticketService;
         this.authenticationService = authenticationService;
+        this.employeeService = employeeService;
     }
 
     @RequestMapping
@@ -130,8 +134,11 @@ public class ReservationController {
     }
 
     @RequestMapping(value = "/finalize", method = RequestMethod.POST, params = "confirm")
-    public String finalization() {
-
+    public String finalization(Authentication authentication) {
+        boolean isReceptionist = authenticationService.hasRole(authentication, "ROLE_RECEPTIONIST");
+        if(isReceptionist){
+            ticketSessionForm.setEmployee(employeeService.findByEmail((authentication.getName())));
+        }
         ticketService.save(ticketSessionForm.toTicket());
         ticketSessionForm = new TicketSessionForm();
         return "redirect:/reservation/successfull";

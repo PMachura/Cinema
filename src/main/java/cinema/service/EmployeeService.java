@@ -24,6 +24,10 @@ public class EmployeeService {
     public Employee findOne(Integer id) {
         return employeeRepository.findOne(id);
     }
+    public Employee findByEmail(String email) {
+        return employeeRepository.findByEmail(email);
+    }
+    
 
     public List<Employee> findAll() {
         return employeeRepository.findAll();
