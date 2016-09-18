@@ -9,6 +9,7 @@ import cinema.form.TicketSessionForm;
 import cinema.form.UserSessionForm;
 import cinema.model.Seat;
 import cinema.model.User;
+import cinema.service.AuthenticationService;
 import cinema.service.HallService;
 import cinema.service.MovieService;
 import cinema.service.SeatService;
@@ -45,13 +46,13 @@ public class ReservationController {
     private SeatService seatService;
     private UserService userService;
     private TicketService ticketService;
-
+    private AuthenticationService authenticationService;
     private TicketSessionForm ticketSessionForm;
     private UserSessionForm userSessionForm;
 
     @Autowired
     public ReservationController(MovieService movieService, ShowingService showingService, HallService hallService, SeatService seatService, UserService userService,
-            TicketSessionForm ticketSessionForm, UserSessionForm userSessionForm, TicketService ticketService) {
+            TicketSessionForm ticketSessionForm, UserSessionForm userSessionForm, TicketService ticketService, AuthenticationService authenticationService) {
 
         this.movieService = movieService;
         this.showingService = showingService;
@@ -61,6 +62,7 @@ public class ReservationController {
         this.ticketSessionForm = ticketSessionForm;
         this.userSessionForm = userSessionForm;
         this.ticketService = ticketService;
+        this.authenticationService = authenticationService;
     }
 
     @RequestMapping
@@ -101,23 +103,21 @@ public class ReservationController {
         }
         ticketSessionForm.setSeats(seatService.findByIdIn(seatsIdInteger));
 
-        boolean authorized = false;
-        if (authentication != null) {
-            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            authorized = authorities.contains(new SimpleGrantedAuthority("ROLE_USER"));
-        }
-        if (authorized) {
-            model.addAttribute(userService.findByEmail(authentication.getName()));
-
+        boolean isUser = authenticationService.hasRole(authentication, "ROLE_USER");
+        if (isUser) {
+            model.addAttribute("user", userService.findByEmail(authentication.getName()));
         } else {
-            model.addAttribute(new User());
+            model.addAttribute("user", new User());
         }
+
         return "reservation/user";
 
     }
 
     @RequestMapping(value = "/confirmation", params = "user", method = RequestMethod.POST)
-    public String confirmation(Model model, @ModelAttribute @Valid User user, BindingResult bindingResult) {
+    public String confirmation(Model model,
+            @ModelAttribute @Valid User user, BindingResult bindingResult
+    ) {
         if (bindingResult.hasErrors()) {
             return "reservation/user";
         }
