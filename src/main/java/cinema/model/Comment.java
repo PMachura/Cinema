@@ -5,7 +5,6 @@
  */
 package cinema.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,53 +13,62 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
- * @author Przemek
+ * @author Mateusz
  */
 @Entity
-public class Movie {
-    
+public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
-    @Column(unique = true)
+
     @NotBlank
-    @Size(min =1, max = 20)
-    private String title;
+    @Size(max = 500, min = 3)
+    private String content;
     
-   
     @ManyToOne
-    @JoinColumn(name = "genre_id")
-    @NotNull
-    Genre genre;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Integer getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public String getContent() {
+		return content;
+	}
 
-    public Genre getGenre() {
-        return genre;
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-    
-    
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Topic getTopic() {
+		return topic;
+	}
+
+	public void setTopic(Topic topic) {
+		this.topic = topic;
+	}
+
 }

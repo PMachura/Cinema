@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thmeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<head lang="pl">
+</head>
+<body>
+	<div class="row" layout:fragment="content">
+
+
+		<form action="#" th:action="@{/forum/createTopic}" th:object="${topic}" method="post">
+			<input type="text" th:field="*{section}" th:hidden="true" th:value="*{section}"/>
+
+			<ul th:if="${#fields.hasErrors('*')}" class="errorlist">
+				<li th:each="err : ${#fields.errors('*')}" th:text="${err}">Bad
+					data</li>
+			</ul>
+              <div class="row">
+                    <div class="input-field col s6">
+                        <input th:field="*{name}" id="name" type ="text" th:errorclass="invalid" />
+                        <label for="lastName" th:text="#{name}">Last name</label>
+                        <div th:errors="*{name}" class="red-text">Error</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input th:field="*{description}" id="name" type ="text" th:errorclass="invalid" />
+                        <label for="lastName" th:text="#{description}">Last name</label>
+                        <div th:errors="*{description}" class="red-text">Error</div>
+                    </div>
+                </div>
+
+                <div class="row s12">
+                    <button class="btn default" type="submit" name="save">
+                        <i class="mdi-content-send center" th:text="#{save}"></i>
+                    </button>
+                </div>
+		</form>
+	</div>
+
+</body>
+
+</html>

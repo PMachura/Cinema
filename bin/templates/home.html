@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thmeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="layout/default">
-	  
-<head lang = "pl">
-</head>
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
 
-<body>
-	<div class="row" layout:fragment="content">
-		<h2 class ="deep-orange-text center">Home Page</h2>
-	</div>
-</body>
+    <head lang = "pl">
+    </head>
+
+
+    <body>
+        <div class="row" layout:fragment="content">
+            <h2 class ="deep-orange-text center">Home Page</h2>
+            <form th:action="@{/home}">
+                <input type="checkbox" id="vehicle1" name="vehicle" value="Bike"/> 
+                <label for="vehicle1"> bike </label>
+                <input type="checkbox" id="vehicle2" name="vehicle" value="Car" /> 
+                <label for="vehicle2"> car </label>
+                <input type="checkbox" id="vehicle3" name="vehicle" value="Boat" /> 
+                <label for="vehicle3"> boat </label>
+                <input type="submit" value="Submit"/>
+            </form> 
+        </div>
+    </body>
 
 </html>

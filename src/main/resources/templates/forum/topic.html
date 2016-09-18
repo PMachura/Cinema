@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thmeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head lang="pl">
+</head>
+
+<body>
+	<div class="row" layout:fragment="content">
+
+		<div class="row">
+			<h4>
+				<span th:text="${topic.name}">Unknown</span>
+			</h4>
+
+			<p>
+				<span th:text="${topic.description}">Unknown</span>
+			</p>
+
+
+			<li th:each="comment : ${topic.comments}">
+				<div class="row">
+					<div class="col s2">
+						<h6>
+							<span th:text="${topic.name}">Unknown</span>
+						</h6>
+						<p>
+							<span th:text="${topic.description}">Unknown</span>
+						</p>
+					</div>
+
+				</div>
+			</li>
+
+
+			<form th:action="@{/topic/${topic.id}/createComment}"
+				th:object="${comment}" method="post" enctype="multipart/form-data"
+				class="col m8 s12 offset-m2">
+				<div class="row">
+					<input type="text" th:field="*{content}" th:hidden="true"
+						th:value="*{content}" />
+				</div>
+				<div class="col s1 center">
+					<button class="btn" th:text="#{save}" type="submit" name="create">
+						Save <i class="mdi-content-send right"></i>
+					</button>
+				</div>
+			</form>
+
+
+		</div>
+	</div>
+
+</body>
+
+</html>
