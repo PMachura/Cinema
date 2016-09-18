@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -32,10 +33,12 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "showing_id")
+    @NotNull
     private Showing showing;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @NotNull
     private User user;
 
     @ManyToOne
@@ -44,9 +47,8 @@ public class Ticket {
 
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "ticket_seat", joinColumns = @JoinColumn(name = "ticket_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "seat_id", referencedColumnName = "id"))
-    private List <Seat> seats;
+    private List<Seat> seats;
 
-     
     public Integer getId() {
         return id;
     }
@@ -86,7 +88,5 @@ public class Ticket {
     public void setSeats(List<Seat> seats) {
         this.seats = seats;
     }
-
-  
 
 }

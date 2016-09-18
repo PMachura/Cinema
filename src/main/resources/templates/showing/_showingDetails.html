@@ -19,4 +19,8 @@
         <label th:text="#{hall}">Sala</label>
         <h5> <a th:href="@{/hall/{id}/show(id=${showing.hall.id})}" th:text="${showing.hall.name}">Hall name</a></h5>
     </div>
+    <div class="row ">
+        <label th:text="#{price}">Prize</label>
+        <h5> <span th:text="${showing.price}">Cena</span><br/></h5>
+    </div>
 </div>

@@ -35,16 +35,15 @@ public class Showing {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotNull
     private Float price;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
-    @NotNull
     private Movie movie;
 
     @ManyToOne
     @JoinColumn(name = "hall_id")
-    @NotNull
     private Hall hall;
 
     @NotNull

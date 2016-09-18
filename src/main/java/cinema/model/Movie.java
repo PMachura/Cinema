@@ -12,7 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -27,12 +29,14 @@ public class Movie {
     private Integer id;
     
     @Column(unique = true)
-    @NotEmpty
+    @NotBlank
     @Size(min =1, max = 20)
     private String title;
     
+   
     @ManyToOne
     @JoinColumn(name = "genre_id")
+    @NotNull
     Genre genre;
 
     public Integer getId() {

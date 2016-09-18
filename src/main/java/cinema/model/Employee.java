@@ -36,11 +36,14 @@ public class Employee {
     private Integer id;
 
     @NotBlank
+    @Size(max = 20, min = 3)
     private String password;
 
+    @NotBlank
     @Size(max = 15, min = 2)
     private String firstName;
 
+    @NotBlank
     @Size(max = 15, min = 2)
     private String lastName;
 

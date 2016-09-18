@@ -86,7 +86,6 @@ public class ShowingService extends BaseService {
                 }
             }
         }
-
         return filteredShowings;
     }
 }

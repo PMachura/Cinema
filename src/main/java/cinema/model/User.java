@@ -29,20 +29,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotEmpty
-    @Size(max = 50, min = 2)
+    @NotBlank
+    @Size(max = 20, min = 2)
     private String firstName;
 
-    @NotEmpty
-    @Size(max = 50, min = 2)
+    @NotBlank
+    @Size(max = 20, min = 2)
     private String lastName;
 
-    @NotEmpty
+    @NotBlank
     @Email
     @Column(unique = true)
     private String email;
 
     @NotBlank
+    @Size(max = 20, min = 3)
     private String password;
 
     @OneToMany(mappedBy = "user")

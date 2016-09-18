@@ -16,23 +16,38 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Przemek
  */
 @Entity
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"row", "number", "hall_id"})
+})
 public class Seat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotNull
+    @Min(1)
+    @Max(1000)
     private Integer row;
 
+    @NotNull
+    @Min(1)
+    @Max(1000)
     private Integer number;
 
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "hall_id")
     Hall hall;
 
@@ -78,7 +93,5 @@ public class Seat {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
-
-    
 
 }

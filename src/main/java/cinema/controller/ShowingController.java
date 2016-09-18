@@ -42,7 +42,7 @@ public class ShowingController {
     }
 
     @RequestMapping
-    public String index(Model model, @RequestParam(required = false) Map<String,String> params) {
+    public String index(Model model, @RequestParam(required = false) Map<String, String> params) {
         model.addAttribute("showings", showingService.filteredFindAll(params));
         return "showing/index";
     }
@@ -56,8 +56,11 @@ public class ShowingController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute @Valid Showing showing, BindingResult bindingResult) {
+    public String create(@ModelAttribute @Valid Showing showing, BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("movies", movieService.findAll());
+            model.addAttribute("halls", hallService.findAll());
             return "showing/showingForm";
         }
         showingService.save(showing);
@@ -77,9 +80,9 @@ public class ShowingController {
         redirectAttributes.addFlashAttribute("operationResultMessage", "Showing has been deleted");
         return "redirect:/showing";
     }
-    
+
     @RequestMapping(value = "/{id}/edit")
-    public String edit(@PathVariable Integer id, Model model){
+    public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("showing", showingService.findOne(id));
         model.addAttribute("halls", hallService.findAll());
         model.addAttribute("movies", movieService.findAll());

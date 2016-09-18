@@ -25,6 +25,13 @@
                         <div th:errors="*{time}" class="red-text">Error</div>
                     </div>
                 </div>
+                 <div class="row">
+                    <div class="input-field col s6">
+                        <input th:field="*{price}" id="price" type ="text" th:errorclass="invalid" />
+                        <label for="price" th:text="#{price}">Time</label>
+                        <div th:errors="*{price}" class="red-text">Error</div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="input-field col s6">
                         <select th:field="*{hall.id}">

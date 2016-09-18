@@ -9,10 +9,32 @@
 
     <body>
         <div class="row" layout:fragment="content">
-            <div class ="col l12 ">
-                <h2 class ="deep-orange-text center" th:text="#{tickets}">Ticket</h2>           
+            <h2 class ="deep-orange-text center" th:text="#{tickets}">Ticket</h2>  
+            <div class ="col l12 offset-l1 ">
                 <h5 class="red-text" th:text="${operationResultMessage}"></h5>
-                <ul>
+                <div class ="row">
+                    <form th:action="@{/ticket}" method="GET">
+                        <div class="input-field col l3">
+                            <input th:id="userEmail" th:name="userEmail" th:type="text"/>
+                            <label for="userEmail" th:text="#{userEmail}">title</label>
+                        </div>
+                        <div class="input-field col l3">
+                            <input th:id="employeeEmail" th:name="employeeEmail" th:type="text"/>
+                            <label for="employeeEmail" th:text="#{employeeEmail}">title</label>
+                        </div>
+                        <div class="input-field col l3">
+                            <input th:id="date" th:name="date" th:type="text"/>
+                            <label for="date" th:text="#{date}">title</label>
+                        </div>
+                        <div class="col l1">
+                            <button class="btn default" type="submit">
+                                <i class="mdi-content-send center" th:text="#{search}"></i>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+                <ul th:unless="${#lists.isEmpty(tickets)}">
                     <li th:each="ticket : ${tickets}">
                         <div class="row">
                             <div id="ticketDetail" th:include="ticket/_ticket :: content(ticket=${ticket})"></div>

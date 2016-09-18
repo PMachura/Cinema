@@ -5,11 +5,16 @@
  */
 package cinema.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -22,10 +27,14 @@ public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
-    @NotEmpty
+
+    @Column(unique = true)
+    @NotBlank
     @Size(min = 2, max = 20)
     private String title;
+
+    @OneToMany(mappedBy = "genre")
+    private List<Movie> movies = new ArrayList<Movie>(0);
 
     public Integer getId() {
         return id;
@@ -35,6 +44,14 @@ public class Genre {
         this.id = id;
     }
 
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -42,6 +59,5 @@ public class Genre {
     public void setTitle(String title) {
         this.title = title;
     }
-    
-    
+
 }
