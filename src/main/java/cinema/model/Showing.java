@@ -39,14 +39,16 @@ public class Showing {
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
+    @NotNull
     private Movie movie;
 
     @ManyToOne
     @JoinColumn(name = "hall_id")
+    @NotNull
     private Hall hall;
 
     @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Convert(converter = LocalDateAttributeConverter.class)
     private LocalDate date;
 

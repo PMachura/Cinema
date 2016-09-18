@@ -10,18 +10,22 @@ import cinema.service.EmployeeService;
 import cinema.service.RoleService;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.validation.Valid;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -44,8 +48,8 @@ public class EmployeeController {
    
 
     @RequestMapping
-    public String index(Model model) {
-        model.addAttribute("employees", employeeService.findAll());
+    public String index(Model model, @RequestParam(required = false) Map<String,String> params) {
+        model.addAttribute("employees", employeeService.filteredFindAll(params));
         return "employee/index";
     }
 

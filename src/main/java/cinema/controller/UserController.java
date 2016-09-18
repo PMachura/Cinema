@@ -7,6 +7,7 @@ package cinema.controller;
 
 import cinema.model.User;
 import cinema.service.UserService;
+import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -49,8 +51,8 @@ public class UserController {
     }
 
     @RequestMapping
-    public String index(Model model) {
-        model.addAttribute("users", userService.findAll());
+    public String index(Model model, @RequestParam(required = false) Map<String,String> params) {
+        model.addAttribute("users", userService.filteredFindAll(params));
         return "user/index";
     }
 

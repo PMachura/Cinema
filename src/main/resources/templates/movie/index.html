@@ -17,7 +17,20 @@
                         Add movie
                     </a>  
                 </div>
-                <ul>
+                <div class ="row">
+                    <form th:action="@{/movie}" method="GET">
+                        <div class="input-field col l3">
+                            <input th:id="title" th:name="title" th:type="text"/>
+                            <label for="title" th:text="#{title}">title</label>
+                        </div>
+                        <div class="col l1">
+                            <button class="btn default" type="submit">
+                                <i class="mdi-content-send center" th:text="#{search}"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <ul th:unless="${#lists.isEmpty(movies)}">
                     <li th:each="movie : ${movies}">
                         <div class="row">
                             <div id="movieDetail" th:include="movie/_movie :: content(movie=${movie})"></div>

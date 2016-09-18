@@ -17,7 +17,20 @@
                         Add user
                     </a>  
                 </div>
-                <ul>
+                <div class ="row">
+                    <form th:action="@{/user}" method="GET">
+                        <div class="input-field  col l3">
+                            <input th:id="email" th:name="email" th:type="text"/>
+                            <label for="email" th:text="#{email}">Email</label>
+                        </div>
+                        <div class="col l1">
+                            <button class="btn default" type="submit">
+                                <i class="mdi-content-send center" th:text="#{search}"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <ul th:unless="${#lists.isEmpty(users)}">
                     <li th:each="user : ${users}">
                         <div class="row">
                             <div id="users" th:include="user/_user :: content(user=${user})"></div>

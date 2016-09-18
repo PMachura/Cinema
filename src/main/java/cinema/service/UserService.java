@@ -1,10 +1,13 @@
 package cinema.service;
 
+import cinema.model.Employee;
 import cinema.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cinema.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,5 +51,29 @@ public class UserService {
     
     public User findByEmail(String email){
         return userRepository.findByEmail(email);
+    }
+    
+    public List<User> filteredFindAll(Map<String, String> params) {
+
+        if (params.isEmpty()) {
+            return userRepository.findAll();
+        }
+
+        List<User> users = new ArrayList<User>(0);
+        if (params.containsKey("email")) {
+            users.addAll(findByEmails(params.get("email")));
+        }
+        return users;
+    }
+
+    public List<User> findByEmails(String emails) {
+        List<User> users = new ArrayList<User>();
+        for (String email : emails.split(",")) {
+            User user = userRepository.findByEmail(email);
+            if (user != null) {
+                users.add(user);
+            }
+        }
+        return users;
     }
 }

@@ -15,6 +15,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Locale;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -75,8 +77,8 @@ public class MovieController {
     }
 
     @RequestMapping
-    public String index(Model model) {
-        model.addAttribute("movies", movieService.findAll());
+    public String index(Model model, @RequestParam(required = false) Map<String,String> params) {
+        model.addAttribute("movies", movieService.filteredFindAll(params));
         return "/movie/index";
     }
 
