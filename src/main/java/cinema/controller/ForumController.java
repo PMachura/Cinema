@@ -1,6 +1,8 @@
 package cinema.controller;
 
 import java.security.Principal;
+import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -50,6 +52,33 @@ public class ForumController {
         return "/forum/addSection";
     }
     
+    @RequestMapping("/deleteSection/{id}")
+    public String deleteSection(@PathVariable Integer id, Model model, Authentication authentication, Principal principal) {
+    	Section section = sectionService.findOne(id);
+    	for(Topic topic : section.getTopics()){
+        	for(Comment comment : topic.getComments()){
+        		commentService.delete(comment.getId());
+        	}
+    		topicService.delete(topic.getId());
+    	}
+    	sectionService.delete(id);
+    	System.out.println(id);
+    	model.addAttribute("sections", sectionService.findAll());
+        return "forumHome";
+    }
+    
+    @RequestMapping("/deleteTopic/{id}")
+    public String deleteTopic(@PathVariable Integer id, Model model, Authentication authentication, Principal principal) {
+    	Topic topic = topicService.findOne(id);
+        for(Comment comment : topic.getComments()){
+        	commentService.delete(comment.getId());
+        }
+    	topicService.delete(topic.getId());
+
+    	model.addAttribute("sections", sectionService.findAll());
+        return "forumHome";
+    }
+    
     @PostMapping(value = "/createSection")
     public String create(@ModelAttribute("section") @Valid Section section, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -65,7 +94,7 @@ public class ForumController {
             return "/forum/addTopic";
         }
        
-        
+        topic.setCreateDate(new Date());
         topicService.save(topic);
         return "redirect:/forum";
     }
@@ -88,12 +117,24 @@ public class ForumController {
         return "/forum/topic";
     }
     
-    @RequestMapping("/topic/{id}/createComment")
-    public String topic(@PathVariable Integer id, @ModelAttribute @Valid Comment comment, BindingResult bindingResult) {
+    @PostMapping("/topic/createComment/{id}")
+    public String createComment(@PathVariable Integer id, @ModelAttribute @Valid Comment comment, Model model, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
+        	Topic topic = topicService.findOne(id);
+        	List<Comment> comments= topic.getComments();
+        	comments.add(comment);
+        	comment.setId(null);
+        	topic.setComments(comments);
+        	comment.setTopic(topic);
+        	
+            topic.setCreateDate(new Date());
+        	topicService.save(topic);
+        	
+        	comment.setCreateDate(new Date());
         	commentService.save(comment);
+            
         }
 
-        return "/topic/" + id.toString();
+        return "redirect:/forum/topic/" + id;
     }
 }

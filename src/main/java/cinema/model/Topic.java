@@ -6,6 +6,7 @@
 package cinema.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +42,8 @@ public class Topic {
     @Size(max = 50, min = 3)
     private String name;
     
+    private Date createDate;
+
     @NotBlank
     @Size(max = 9001, min = 3)
     private String description;
@@ -103,6 +106,14 @@ public class Topic {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+    public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 }

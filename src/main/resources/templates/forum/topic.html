@@ -5,7 +5,7 @@
 </head>
 
 <body>
-	<div class="row" layout:fragment="content">
+	<div class="row" layout:fragment="content" th:style="'padding:20px;'">
 
 		<div class="row">
 			<h4>
@@ -15,36 +15,41 @@
 			<p>
 				<span th:text="${topic.description}">Unknown</span>
 			</p>
-
-
-			<li th:each="comment : ${topic.comments}">
-				<div class="row">
-					<div class="col s2">
-						<h6>
-							<span th:text="${topic.name}">Unknown</span>
-						</h6>
-						<p>
-							<span th:text="${topic.description}">Unknown</span>
+			<h3 th:text="#{comments}" th:style="'margin-top:60px;'">
+			
+			</h3>
+			
+			<div th:each="comment2 : ${topic.comments}" >
+			
+					<div class="col s8" th:style="'background-color: #eee; border-top-left-radius:5px; border-top-right-radius:5px; margin-top:10px; margin-left:5%;'">
+						<p th:style="'border-bottom: 1px solid black;'">
+							<span th:text="${comment2.content}">Unknown</span> 
+						</p>
+						
+						<p th:style="'color:#e66;'">
+							<span th:text="${comment2.createDate}">Unknown</span> 
 						</p>
 					</div>
 
-				</div>
-			</li>
+			</div>
+			
+			<div class="col s6" th:style="'margin-top: 80px'" >
+			<h4 th:text="#{addComment}">addComment</h4>
+				<form th:action="@{/forum/topic/createComment/}+${topic.id}"
+					th:object="${comment}" method="post" enctype="multipart/form-data"
+					class=" m8 s12 offset-m2">
+					<div class="row">
+						<textarea th:field="*{content}" th:value="*{content}" rows="8"
+							cols="50">...</textarea>
+					</div>
+					<div class="col s1 center">
+						<button class="btn" th:text="#{save}" type="submit" name="create">
+							Save <i class="mdi-content-send right"></i>
+						</button>
+					</div>
+				</form>
+			</div>
 
-
-			<form th:action="@{/topic/${topic.id}/createComment}"
-				th:object="${comment}" method="post" enctype="multipart/form-data"
-				class="col m8 s12 offset-m2">
-				<div class="row">
-					<input type="text" th:field="*{content}" th:hidden="true"
-						th:value="*{content}" />
-				</div>
-				<div class="col s1 center">
-					<button class="btn" th:text="#{save}" type="submit" name="create">
-						Save <i class="mdi-content-send right"></i>
-					</button>
-				</div>
-			</form>
 
 
 		</div>
