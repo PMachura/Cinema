@@ -37,6 +37,7 @@
                         <input th:if="${user.id == null}" th:field="*{email}" id="email" type ="text" th:errorclass="invalid" />
                         <label for="email" th:text="#{email}">E-mail</label>
                         <div th:errors="*{email}" class="red-text">Error</div>
+                        <div class="red-text" th:text="${error}">Error </div>
                     </div>
                 </div>
                 <div  class="row">

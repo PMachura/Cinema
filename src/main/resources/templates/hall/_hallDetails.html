@@ -1,0 +1,23 @@
+
+
+<div th:fragment="content (hall)">
+    <div class="row">
+        <label th:text="#{hallName}">Nazwa</label>
+        <h5 th:text="${hall.name}">Unknown</h5>                           
+    </div>  
+    <div class="row">
+        <label th:text="#{capacity}">capacity</label>
+        <h5 th:text="${hall.capacity}">Unknown</h5>   
+    </div>
+    <div class="row"> 
+        <h5 class ="indigo-text " th:text="#{seats}">Seats</h5>
+        <ul>
+            <li th:each="seat : ${hall.seats}">
+                <div class="row">
+                    <div id="seats" th:include="seat/_seat :: content(seat=${seat})"></div>
+                </div>
+            </li>
+        </ul> 
+    </div>
+
+</div>

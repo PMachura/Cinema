@@ -23,7 +23,7 @@ public class GlobalControllersExceptionHandler {
     public ModelAndView ConstraintViolationExceptionHandle(Locale locale, Exception exception) {      
         ModelAndView modelAndView = new ModelAndView("operationResult");
         modelAndView.addObject("operationResultMessage", 
-                "Naruszenie specyfikacji bazy danych. Duplikacja unikatowej wartości");
+                "Naruszenie specyfikacji bazy danych. ");
         return modelAndView;
     }
 }

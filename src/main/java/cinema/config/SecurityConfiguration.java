@@ -40,6 +40,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             + "(select er.role_id from employee_role er where er.employee_id = e.id ) and e.email = ?");
     }
 
+    //RECEPTIONIST
+    //ADMIN
+    //COORDINATOR
+    //USER
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -50,7 +54,36 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/login")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/webjars/**", "/login").permitAll()
+                
+                .antMatchers("/movie/add").hasAnyRole("ADMIN","COORDINATOR")
+                .antMatchers("/movie/create").hasAnyRole("ADMIN","COORDINATOR")
+                .antMatchers("/movie/**/edit").hasAnyRole("ADMIN","COORDINATOR")
+                .antMatchers("/movie/**/delete").hasAnyRole("ADMIN","COORDINATOR")
+                
+                .antMatchers("/showing/add").hasAnyRole("ADMIN","COORDINATOR")
+                .antMatchers("/showing/create").hasAnyRole("ADMIN","COORDINATOR")
+                .antMatchers("/showing/**/edit").hasAnyRole("ADMIN","COORDINATOR")
+                .antMatchers("/showing/**/delete").hasAnyRole("ADMIN","COORDINATOR")
+                
+                .antMatchers("/employee/add").hasRole("ADMIN")
+                .antMatchers("/employee/create").hasRole("ADMIN")
+                .antMatchers("/employee/**/edit").hasRole("ADMIN")
+                .antMatchers("/employee/**/delete").hasRole("ADMIN")
+                .antMatchers("/employee/**/show").hasRole("ADMIN")
+                .antMatchers("/employee").hasRole("ADMIN")
+                
+                .antMatchers("/user/**/edit").hasRole("ADMIN")
+                .antMatchers("/user/**/delete").hasRole("ADMIN")
+                .antMatchers("/user/**/show").hasAnyRole("ADMIN","COORDINATOR","RECEPTIONIST","USER")
+                .antMatchers("/user").hasAnyRole("ADMIN","COORDINATOR","RECEPTIONIST")
+                .antMatchers("/user/myProfile").hasRole("USER")
+                .antMatchers("/user/deleteMyProfile").hasRole("USER")
+                .antMatchers("/user/editMyProfile").hasRole("USER")
+                .antMatchers("/user/myTickets").hasRole("USER")
+                
+                .antMatchers("/ticket/**/delete").hasAnyRole("ADMIN","COORDINATOR","RECEPTIONIST")
+               // .antMatchers("/ticket").hasAnyRole("ADMIN","COORDINATOR","RECEPTIONIST")
+               
                 .anyRequest().permitAll();
     }
 }

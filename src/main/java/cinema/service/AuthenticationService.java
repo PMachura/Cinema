@@ -26,4 +26,26 @@ public class AuthenticationService {
         }
         return hasRole;
     }
+    
+    public boolean isEmployee(Authentication authentication){
+        boolean isEmployee = false;
+        if (authentication != null){
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            isEmployee = authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) 
+                      || authorities.contains(new SimpleGrantedAuthority("ROLE_COORDINATOR"))
+                      || authorities.contains(new SimpleGrantedAuthority("ROLE_RECEPTIONIST"));                   
+        }
+        return isEmployee;
+    }
+    
+    public boolean isUser(Authentication authentication){
+        boolean isUser = false;
+        if(authentication != null){
+           Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities(); 
+           isUser = authorities.contains(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+    
+        return isUser;
+    }
+    
 }

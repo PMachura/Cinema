@@ -5,6 +5,7 @@
  */
 package cinema.controller;
 
+import cinema.exception.EntityDuplicateException;
 import cinema.form.TicketSessionForm;
 import cinema.form.UserSessionForm;
 import cinema.model.Seat;
@@ -20,6 +21,7 @@ import cinema.service.UserService;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,10 +30,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -67,6 +71,14 @@ public class ReservationController {
         this.ticketService = ticketService;
         this.authenticationService = authenticationService;
         this.employeeService = employeeService;
+    }
+
+    @ExceptionHandler(EntityDuplicateException.class)
+    public ModelAndView IOExceptionHandle(Locale locale) {
+        ModelAndView modelAndView = new ModelAndView("reservation/user");
+        modelAndView.addObject("error", "Podany email już istnieje");
+        modelAndView.addObject("user", new User());
+        return modelAndView;
     }
 
     @RequestMapping
@@ -107,7 +119,7 @@ public class ReservationController {
         }
         ticketSessionForm.setSeats(seatService.findByIdIn(seatsIdInteger));
 
-        boolean isUser = authenticationService.hasRole(authentication, "ROLE_USER");
+        boolean isUser = authenticationService.isUser(authentication);
         if (isUser) {
             model.addAttribute("user", userService.findByEmail(authentication.getName()));
         } else {
@@ -119,26 +131,28 @@ public class ReservationController {
     }
 
     @RequestMapping(value = "/confirmation", params = "user", method = RequestMethod.POST)
-    public String confirmation(Model model,
+    public String confirmation(Model model, Authentication authentication,
             @ModelAttribute @Valid User user, BindingResult bindingResult
-    ) {
+    ) throws EntityDuplicateException {
         if (bindingResult.hasErrors()) {
             return "reservation/user";
         }
+        if (authenticationService.isEmployee(authentication)) {
+            ticketSessionForm.setUser(userService.saveOrIfExistsSetId(user));
+            ticketSessionForm.setEmployee(employeeService.findByEmail(authentication.getName()));
+        } else if (authenticationService.isUser(authentication)) {
+            ticketSessionForm.setUser(userService.findByEmail(authentication.getName()));
+        } else {
+            ticketSessionForm.setUser(userService.save(user));
+        }
 
-        ticketSessionForm.setUser(userService.saveOrIfExistsSetId(user));
         model.addAttribute("ticket", ticketSessionForm.toTicket());
-
         return "reservation/confirmation";
 
     }
 
     @RequestMapping(value = "/finalize", method = RequestMethod.POST, params = "confirm")
     public String finalization(Authentication authentication) {
-        boolean isReceptionist = authenticationService.hasRole(authentication, "ROLE_RECEPTIONIST");
-        if(isReceptionist){
-            ticketSessionForm.setEmployee(employeeService.findByEmail((authentication.getName())));
-        }
         ticketService.save(ticketSessionForm.toTicket());
         ticketSessionForm = new TicketSessionForm();
         return "redirect:/reservation/successfull";

@@ -12,7 +12,8 @@
             <div class ="col m8 s12 l10 offset-l1">
                 <h2 class ="deep-orange-text center" th:text="#{showings}">Showings</h2>           
                 <h5 class="red-text" th:text="${operationResultMessage}"></h5>
-                <div class="row">
+
+                <div class="row" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')">
                     <a class="btn waves-effect waves-teal orange" th:href="@{showing/add}" th:text="#{addShowing}"> 
                         Add showing
                     </a>  
@@ -39,9 +40,9 @@
                     <li th:each="showing : ${showings}">
                         <div class="row">
                             <div id="showingDetail" th:include="showing/_showing :: content(showing=${showing})"></div>
-                            <a class="btn waves-effect waves-teal orange" th:href="@{showing/{id}/edit(id=${showing.id})}" th:text="#{edit}">Edit</a>
-                            <a class="btn waves-effect waves-teal orange" th:href="@{showing/{id}/show(id=${showing.id})}" th:text="#{show}">Show</a>
-                            <a class="btn waves-effect waves-teal orange" th:href="@{showing/{id}/delete(id=${showing.id})}" th:text="#{delete}">Delete</a>
+                            <a class="btn waves-effect waves-teal orange" th:href="@{showing/{id}/show(id=${showing.id})}" th:text="#{show}">Show</a>                          
+                            <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')" class="btn waves-effect waves-teal orange" th:href="@{showing/{id}/edit(id=${showing.id})}" th:text="#{edit}">Edit</a>
+                            <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')" class="btn waves-effect waves-teal orange" th:href="@{showing/{id}/delete(id=${showing.id})}" th:text="#{delete}">Delete</a>
                         </div>
                     </li>
                 </ul>

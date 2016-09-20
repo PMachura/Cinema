@@ -76,6 +76,11 @@ public class TestController {
         return "test/profile";
     }
 
+    @RequestMapping("/findUser")
+    public String findUser(){
+        userService.findOne(15);
+        return "/home";
+    }
 
     
     @RequestMapping(value = "/setUser")

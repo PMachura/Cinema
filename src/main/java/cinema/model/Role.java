@@ -31,7 +31,7 @@ public class Role {
 
     @Column(unique = true)
     @NotBlank
-    @Size(min =1, max = 15)
+    @Size(min =1, max = 25)
     private String title;
 
     @ManyToMany(mappedBy = "roles")

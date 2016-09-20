@@ -32,6 +32,7 @@
                     <div class="input-field col s6">
                         <input th:field="*{email}" id="email" type ="text" th:errorclass="invalid" />
                         <label for="email" th:text="#{email}">E-mail</label>
+                        <div class="red-text" th:text="${error}">Error </div>
                         <div th:errors="*{email}" class="red-text">Error</div>
                     </div>
                 </div>

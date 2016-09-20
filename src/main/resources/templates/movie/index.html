@@ -12,7 +12,7 @@
             <div class ="col m8 s12 offset-m2">
                 <h2 class ="deep-orange-text center" th:text="#{movies}">Movies</h2>           
                 <h5 class="red-text" th:text="${operationResultMessage}"></h5>
-                <div class="row">
+                <div class="row" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')">
                     <a class="btn waves-effect waves-teal orange" th:href="@{movie/add}" th:text="#{addMovie}"> 
                         Add movie
                     </a>  
@@ -34,9 +34,9 @@
                     <li th:each="movie : ${movies}">
                         <div class="row">
                             <div id="movieDetail" th:include="movie/_movie :: content(movie=${movie})"></div>
-                            <a class="btn waves-effect waves-teal orange" th:href="@{movie/{id}/edit(id=${movie.id})}" th:text="#{edit}">Edit</a>
                             <a class="btn waves-effect waves-teal orange" th:href="@{movie/{id}/show(id=${movie.id})}" th:text="#{show}">Show</a>
-                            <a class="btn waves-effect waves-teal orange" th:href="@{movie/{id}/delete(id=${movie.id})}" th:text="#{delete}">Delete</a>
+                            <a  sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')" class="btn waves-effect waves-teal orange" th:href="@{movie/{id}/edit(id=${movie.id})}" th:text="#{edit}">Edit</a>
+                            <a  sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')" class="btn waves-effect waves-teal orange" th:href="@{movie/{id}/delete(id=${movie.id})}" th:text="#{delete}">Delete</a>
                         </div>
                     </li>
                 </ul>

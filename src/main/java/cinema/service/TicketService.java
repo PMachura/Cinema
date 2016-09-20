@@ -45,6 +45,10 @@ public class TicketService extends BaseService {
     public void delete(Integer id) {
         ticketRepository.delete(id);
     }
+    
+    public List<Ticket> findByUserEmail(String email){
+        return ticketRepository.findByUserEmail(email);
+    }
 
     public List<Ticket> filteredFindAll(Map<String, String> params) {
         List<Ticket> tickets = ticketRepository.findAll();

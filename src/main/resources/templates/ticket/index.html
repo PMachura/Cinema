@@ -12,7 +12,7 @@
             <h2 class ="deep-orange-text center" th:text="#{tickets}">Ticket</h2>  
             <div class ="col l12 offset-l1 ">
                 <h5 class="red-text" th:text="${operationResultMessage}"></h5>
-                <div class ="row">
+                <div class ="row" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR', 'ROLE_RECEPTIONIST')">
                     <form th:action="@{/ticket}" method="GET">
                         <div class="input-field col l3">
                             <input th:id="userEmail" th:name="userEmail" th:type="text"/>
@@ -38,8 +38,10 @@
                     <li th:each="ticket : ${tickets}">
                         <div class="row">
                             <div id="ticketDetail" th:include="ticket/_ticket :: content(ticket=${ticket})"></div>
-                            <a class="btn waves-effect waves-teal orange" th:href="@{ticket/{id}/show(id=${ticket.id})}" th:text="#{show}">Show</a>
-                            <a class="btn waves-effect waves-teal orange" th:href="@{ticket/{id}/delete(id=${ticket.id})}" th:text="#{delete}">Delete</a>
+                            <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR', 'ROLE_RECEPTIONIST')">
+                                <a class="btn waves-effect waves-teal orange" th:href="@{/ticket/{id}/show(id=${ticket.id})}" th:text="#{show}">Show</a>
+                                <a  class="btn waves-effect waves-teal orange" th:href="@{/ticket/{id}/delete(id=${ticket.id})}" th:text="#{delete}">Delete</a> 
+                            </div>
                         </div>
                     </li>
                 </ul>

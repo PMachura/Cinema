@@ -15,6 +15,10 @@
                     <h4 class ="indigo-text " th:text="#{personalInformation}">Personal Information</h4>
                     <div id="profile" th:include="user/_user :: content(user=${ticket.user})"></div> 
                 </div>
+                 <div class="row" th:if="${ticket.employee != null}">
+                    <h4 class ="indigo-text " th:text="#{personalInformation}">Personal Information</h4>
+                    <div id="profile" th:include="employee/_employee :: content(employee=${ticket.employee})"></div> 
+                </div>
                 <div class="row">
                     <h4 class ="indigo-text" th:text="#{movie}">Movie</h4>
                     <div id="movie" th:include="movie/_movie :: content(movie=${ticket.showing.movie})"></div>  
