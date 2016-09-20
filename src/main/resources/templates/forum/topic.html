@@ -10,6 +10,9 @@
 		<div class="row">
 			<h4>
 				<span th:text="${topic.name}">Unknown</span>
+				<span th:style="'color:#e66; font-size:16px;'" th:text="${topic.createDate}">Unknown</span> 
+				<span th:style="'font-size:16px;'" th:text="${topic.user.firstName}">Unknown</span> 
+				<span th:style="'font-size:16px;'" th:text="${topic.user.lastName}">Unknown</span> 
 			</h4>
 
 			<p>
@@ -21,14 +24,20 @@
 			
 			<div th:each="comment2 : ${topic.comments}" >
 			
-					<div class="col s8" th:style="'background-color: #eee; border-top-left-radius:5px; border-top-right-radius:5px; margin-top:10px; margin-left:5%;'">
-						<p th:style="'border-bottom: 1px solid black;'">
+
+					<div class="col s8" th:style="'background-color: #eee; margin-top:10px; margin-left:5%;'">
+					
+						<p th:style="' border-top-left-radius:5px; border-top-right-radius:5px;  border-bottom: 1px solid black;'">
+							<span th:style="'color:#e66;'" th:text="${comment2.createDate}">Unknown</span> 
+							<span th:text="${comment2.user.firstName}">Unknown</span> 
+							<span th:text="${comment2.user.lastName}">Unknown</span> 
+						</p>
+						
+						<p th:style="''">
 							<span th:text="${comment2.content}">Unknown</span> 
 						</p>
 						
-						<p th:style="'color:#e66;'">
-							<span th:text="${comment2.createDate}">Unknown</span> 
-						</p>
+
 					</div>
 
 			</div>
@@ -39,7 +48,7 @@
 					th:object="${comment}" method="post" enctype="multipart/form-data"
 					class=" m8 s12 offset-m2">
 					<div class="row">
-						<textarea th:field="*{content}" th:value="*{content}" rows="8"
+						<textarea class="form-control" th:field="*{content}" th:value="*{content}" rows="8"
 							cols="50">...</textarea>
 					</div>
 					<div class="col s1 center">

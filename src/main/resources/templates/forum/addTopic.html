@@ -25,7 +25,8 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input th:field="*{description}" id="name" type ="text" th:errorclass="invalid" />
+                    	<textarea class="form-control" th:field="*{description}" th:value="*{description}" rows="8"
+							cols="50">...</textarea>
                         <label for="lastName" th:text="#{description}">Last name</label>
                         <div th:errors="*{description}" class="red-text">Error</div>
                     </div>

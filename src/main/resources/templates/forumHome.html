@@ -35,10 +35,13 @@ body {
 					</div>
 				</div>
 			<li th:each="topic : ${section.topics}">
-				<div class="row">
-					<div class="col s6" th:style="' border: 1px solid black'">
-						<a th:href="@{forum/topic/}+${topic.id}"> <span th:text="${topic.name}">Unknown</span>
-						</a> <span th:text="${topic.createDate}">Unknown</span>
+				<div class="row" >
+					<div class="col s6" th:style="' border: 1px solid black; padding: 0px; '">
+					<a th:href="@{forum/topic/}+${topic.id}"  th:style="'color:black; padding: 0px; margin-left:10px;'">
+						<div class="col s12" th:style="'background-color: red; padding: 0px;'">
+						 <span th:text="${topic.name}" th:style="'margin-left:10px; font-size:20px;'" >Unknown</span>
+						 <span th:text="${topic.createDate}" th:style="'margin-left:10px; font-size:12px;'" >Unknown</span>
+						</div></a>
 						<p th:style="'overflow: hidden; text-overflow: ellipsis;'">
 							<span th:text="${topic.description}">Unknown</span>
 						</p>

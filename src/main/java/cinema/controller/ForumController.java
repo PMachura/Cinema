@@ -38,10 +38,11 @@ public class ForumController {
 	UserService userService;
 	
     @Autowired
-    public ForumController(SectionService sectionService, TopicService topicService, CommentService commentService) {
+    public ForumController(SectionService sectionService, TopicService topicService, CommentService commentService, UserService userService) {
         this.sectionService = sectionService;
         this.topicService = topicService;
         this.commentService = commentService;
+        this.userService = userService;
     }
     
     @RequestMapping
@@ -108,7 +109,7 @@ public class ForumController {
     @RequestMapping("/addTopic/{id}")
     public String addTopic(@PathVariable Integer id, Model model) {
     	Topic topic =  new Topic();
-    	
+
     	topic.setSection(sectionService.findOne(id));
     	
     	model.addAttribute("section", sectionService.findOne(id));
