@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thmeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<head lang="pl">
+</head>
+<body>
+	<div class="row" layout:fragment="content">
+
+
+		<form action="#" th:action="@{/forum/createSection}" th:object="${section}" method="post">
+
+
+			<ul th:if="${#fields.hasErrors('*')}" class="errorlist">
+				<li th:each="err : ${#fields.errors('*')}" th:text="${err}">Bad
+					data</li>
+			</ul>
+              <div class="row">
+                    <div class="input-field col s6">
+                        <input th:field="*{name}" id="name" type ="text" th:errorclass="invalid" />
+                        <label for="lastName" th:text="#{name}">Last name</label>
+                        <div th:errors="*{name}" class="red-text">Error</div>
+                    </div>
+                </div>
+                <div class="row s12">
+                    <button class="btn default" type="submit" name="save">
+                        <i class="mdi-content-send center" th:text="#{save}"></i>
+                    </button>
+                </div>
+		</form>
+	</div>
+
+</body>
+
+</html>

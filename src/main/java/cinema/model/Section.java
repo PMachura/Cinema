@@ -7,34 +7,34 @@ package cinema.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
- * @author Przemek
+ * @author Mateusz
  */
 @Entity
-public class Genre {
+public class Section {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(unique = true)
     @NotBlank
-    @Size(min = 2, max = 20)
-    private String title;
+    @Size(max = 50, min = 3)
+    private String name;
 
-    @OneToMany(mappedBy = "genre")
-    private List<Movie> movies = new ArrayList<Movie>(0);
-
+    @OneToMany(mappedBy = "section")
+    private List<Topic> topics = new ArrayList<Topic>(0);
+    
     public Integer getId() {
         return id;
     }
@@ -43,20 +43,20 @@ public class Genre {
         this.id = id;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
+    public String getName() {
+        return name;
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTitle() {
-        return title;
-    }
+	public List<Topic> getTopics() {
+		return topics;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setTopics(List<Topic> topics) {
+		this.topics = topics;
+	}
 
 }

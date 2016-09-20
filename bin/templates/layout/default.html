@@ -1,35 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <title>Layout title</title>
-    <link href="/webjars/materializecss/0.96.0/css/materialize.css" type="text/css" rel="stylesheet"
-          media="screen,projection"/>
-</head>
-<body>
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+        <title>Layout title</title>
+        <link href="/webjars/materializecss/0.96.0/css/materialize.css" type="text/css" rel="stylesheet"
+              media="screen,projection"/>
+    </head>
 
+    <script>
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+    </script>
+    <body>
+        <nav>
+            <div class="nav-wrapper deep-orange">
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li sec:authorize="isAuthenticated()">
+                        <form  th:action="@{/logout}" method="post" style="display: inline-block">
+                            <input class="btn-flat" type="submit" value="Sign Out"/>
+                        </form>  
+                    </li>
+                    <li sec:authorize="isAnonymous()">
+                        <form  th:action="@{/login}" method="get" style="display: inline-block">
+                            <input class="btn-flat" type="submit" value="Sign In"/>
+                        </form>  
+                    </li>
+                </ul>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li><a th:href="@{/home}" th:text="#{homePage}">Home Page</a></li>
+                    <li><a th:href="@{/reservation/movie}" th:text="#{reservation}">Reserve</a></li>
+                    <li><a th:href="@{/movie}" th:text="#{movies}">Movies</a></li>
+                    <li><a th:href="@{/showing}" th:text="#{showings}">Showings</a></li>
+                    <li><a th:href="@{/ticket}" th:text="#{tickets}">Tickets</a></li>
+                    <li><a th:href="@{/user}" th:text="#{users}">Users</a></li>
+                    <li><a th:href="@{/employee}" th:text="#{employees}">Employees</a></li>
+                    <li><a th:href="@{/forum}" th:text="#{forum}">Forum</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div sec:authorize="isAuthenticated()">
+            Jesteś zalogowany jako <b sec:authentication="name"/> z rolami <span sec:authentication="authorities"/>
+            <hr/>
+        </div>
+        <section layout:fragment="content">
+            <p>Zawartość strony</p>
+        </section>
 
+        <script src="/webjars/jquery/2.1.4/jquery.js"></script>
+        <script src="/webjars/materializecss/0.96.0/js/materialize.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+        </script>
+        <script type="text/javascript" layout:fragment="script"></script>
 
-<nav>
-    <div class="nav-wrapper deep-orange">
-      
-    </div>
-</nav>
-
-
-
-
-<section layout:fragment="content">
-    <p>Zawartość strony</p>
-</section>
-
-<script src="/webjars/jquery/2.1.4/jquery.js"></script>
-<script src="/webjars/materializecss/0.96.0/js/materialize.js"></script>
-<script type="text/javascript"></script>
-<script type="text/javascript" layout:fragment="script">
-</script>
-</body>
+    </body>
 </html>
