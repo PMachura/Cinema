@@ -32,8 +32,8 @@
 					</div>
 
 			</div>
-			
-			<div class="col s6" th:style="'margin-top: 80px'" >
+
+			<div class="col s6" th:style="'margin-top: 80px'" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR', 'ROLE_USER')">
 			<h4 th:text="#{addComment}">addComment</h4>
 				<form th:action="@{/forum/topic/createComment/}+${topic.id}"
 					th:object="${comment}" method="post" enctype="multipart/form-data"
@@ -49,7 +49,10 @@
 					</div>
 				</form>
 			</div>
-
+			
+			<div class="col s6" th:style="'margin-top: 80px'"  sec:authorize="hasAnyRole('ROLE_ANONYMOUS')">
+				<h4 th:text="#{loginToAddComment}">login to add comment</h4>
+			</div>
 
 
 		</div>

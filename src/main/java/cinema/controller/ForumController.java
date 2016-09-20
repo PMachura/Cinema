@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import cinema.model.Comment;
 import cinema.model.Section;
 import cinema.model.Topic;
+import cinema.model.User;
 import cinema.service.CommentService;
 import cinema.service.SectionService;
 import cinema.service.TopicService;
+import cinema.service.UserService;
 
 @Controller
 @RequestMapping("/forum")
@@ -33,6 +35,8 @@ public class ForumController {
     
 	CommentService commentService;
     
+	UserService userService;
+	
     @Autowired
     public ForumController(SectionService sectionService, TopicService topicService, CommentService commentService) {
         this.sectionService = sectionService;
@@ -89,12 +93,14 @@ public class ForumController {
     }
     
     @PostMapping(value = "/createTopic")
-    public String create(@ModelAttribute @Valid Topic topic, BindingResult bindingResult) {
+    public String create(@ModelAttribute @Valid Topic topic, BindingResult bindingResult, Authentication authentication) {
         if (bindingResult.hasErrors()) {
             return "/forum/addTopic";
         }
        
         topic.setCreateDate(new Date());
+        User user =  userService.findByEmail(authentication.getName());
+        topic.setUser(user);
         topicService.save(topic);
         return "redirect:/forum";
     }
@@ -118,7 +124,7 @@ public class ForumController {
     }
     
     @PostMapping("/topic/createComment/{id}")
-    public String createComment(@PathVariable Integer id, @ModelAttribute @Valid Comment comment, Model model, BindingResult bindingResult) {
+    public String createComment(@PathVariable Integer id, @ModelAttribute @Valid Comment comment, Model model, BindingResult bindingResult, Authentication authentication) {
         if (!bindingResult.hasErrors()) {
         	Topic topic = topicService.findOne(id);
         	List<Comment> comments= topic.getComments();
@@ -128,9 +134,13 @@ public class ForumController {
         	comment.setTopic(topic);
         	
             topic.setCreateDate(new Date());
+            User user =  userService.findByEmail(authentication.getName());
+            topic.setUser(user);
         	topicService.save(topic);
         	
         	comment.setCreateDate(new Date());
+
+            comment.setUser(user);
         	commentService.save(comment);
             
         }
