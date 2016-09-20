@@ -14,7 +14,7 @@
             <div class ="col l12 offset-m2">
                 <h2 class ="indigo-text center" th:text="#{chooseMovie}">Choose movie</h2>
                 <div class="row">
-                    <form th:action="@{/reservation/showing}" method="post" class="col m8 s12 offset-m2">
+                    <form th:unless="${#lists.isEmpty(movies)}"  th:action="@{/reservation/showing}" method="post" class="col m8 s12 offset-m2">
                         <ul>
                             <li th:each="movie : ${movies}">
                                 <div class="row">
